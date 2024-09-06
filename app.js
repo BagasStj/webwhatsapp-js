@@ -26,11 +26,11 @@ client.on('message_create', async message => {
         if (response.data.success) {
             await client.sendMessage(message.from, response.data.reply);
         } else {
-            await client.sendMessage(message.from, "Maaf sedang terjadi gangguan di server");
+            await client.sendMessage(message.from, "Maaf saat ini server sedang mengalami gangguan, silahkan coba beberapa saat lagi. Terima kasih");
         }
     } catch (error) {
         console.error('Error calling API:', error);
-        await client.sendMessage(message.from, "Maaf sedang terjadi gangguan di server");
+        await client.sendMessage(message.from, "Maaf saat ini server sedang mengalami gangguan, silahkan coba beberapa saat lagi. Terima kasih");
     }
 
     // Log messages
