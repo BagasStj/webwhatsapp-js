@@ -2,10 +2,15 @@ const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8008;
 
 const client = new Client();
 const axios = require('axios');
+
+// Tambahkan error handler untuk client
+client.on('error', (error) => {
+    console.error('WhatsApp client error:', error);
+});
 
 client.on('ready', () => {
     console.log('Client is ready!');
@@ -40,6 +45,30 @@ client.on('message_create', async message => {
 
 // Middleware dan route definitions Anda di sini
 
+// Tambahkan error handling untuk express
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+});
+
+// Inisialisasi client WhatsApp
+client.initialize().catch(err => {
+    console.error('Failed to initialize WhatsApp client:', err);
+});
+
+// Tambahkan handler untuk uncaught exceptions
+process.on('uncaughtException', (err) => {
+    console.error('Uncaught Exception:', err);
+    // Optionally, you can gracefully shut down your server here
+    // process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Optionally, you can gracefully shut down your server here
+    // process.exit(1);
 });
