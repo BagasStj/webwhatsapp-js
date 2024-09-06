@@ -34,6 +34,7 @@ client.on('ready', () => {
 
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
+    console.log('QR RECEIVED', qr);
 });
 
 // Listening to all incoming messages
