@@ -33,31 +33,34 @@ client.on('ready', () => {
 });
 
 client.on('qr', qr => {
-    qrcode.generate(qr, {small: true});
+    qrcode.generate(qr, { small: true });
     console.log('QR RECEIVED', qr);
 });
 
 // Listening to all incoming messages
 client.on('message_create', async message => {
-    try {
-        const response = await axios.post('https://agatha-chat-bot-nextjs.vercel.app/api/procesor-chatbot', {
-            sender: message.from,
-            message: message.body
-        });
+    if (message.from != '6285183736396@c.us') {
+        try {
+            const response = await axios.post('https://agatha-chat-bot-nextjs.vercel.app/api/procesor-chatbot', {
+                sender: message.from,
+                message: message.body
+            });
 
-        if (response.data.success) {
-            await client.sendMessage(message.from, response.data.reply);
-        } else {
+            if (response.data.success) {
+                await client.sendMessage(message.from, response.data.reply);
+            } else {
+                await client.sendMessage(message.from, "Maaf saat ini server sedang mengalami gangguan, silahkan coba beberapa saat lagi. Terima kasih");
+            }
+        } catch (error) {
+            console.error('Error calling API:', error);
             await client.sendMessage(message.from, "Maaf saat ini server sedang mengalami gangguan, silahkan coba beberapa saat lagi. Terima kasih");
         }
-    } catch (error) {
-        console.error('Error calling API:', error);
-        await client.sendMessage(message.from, "Maaf saat ini server sedang mengalami gangguan, silahkan coba beberapa saat lagi. Terima kasih");
+        // Log messages
+        console.log('From:', message.from);
+        console.log('Body:', message.body);
     }
 
-    // Log messages
-    console.log('From:', message.from);
-    console.log('Body:', message.body);
+
 });
 
 // Middleware dan route definitions Anda di sini

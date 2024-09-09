@@ -95,3 +95,6 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Vercel specific files
+.vercel
