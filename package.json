@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "axios": "latest",
+    "express": "^4.19.2",
     "puppeteer": "latest",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "latest"
